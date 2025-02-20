@@ -222,12 +222,10 @@
                     <tr class="text-center">
                         <th colspan="2">BANK STATEMENT</th>
                     </tr>
-                    @php
-                    dump($data);
-                    die();
-                    @endphp
                     <tr>
-                        <td class="text-start"><strong>File:</strong> <a href="{{ $data->find_key('bank_statement') }}" download>Download File</a></td>
+                        @foreach(json_decode($data->find_key('bank_statement_path')) as $key => $value)
+                        <td class="text-start"><strong>File:</strong> <a href="{{ asset($value) }}" download>Download File</a></td>
+                        @endforeach
                     </tr>
                 </table>
 
