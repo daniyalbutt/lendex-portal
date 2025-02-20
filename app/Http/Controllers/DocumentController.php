@@ -15,6 +15,8 @@ use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
 use Hash;
 use Auth;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 
 class DocumentController extends Controller
 {
@@ -160,19 +162,35 @@ class DocumentController extends Controller
         return redirect()->route('applications.index')->with('success','Application deleted successfully');
     }
 
+    function downloadAndStoreFile($fileUrl, $directory = 'downloads'){
+        $response = Http::get($fileUrl);
+        if ($response->successful()) {
+            $fileName = basename(parse_url($fileUrl, PHP_URL_PATH));
+            $filePath = $directory . '/' . $fileName;
+            Storage::disk('public')->put($filePath, $response->body());
+            return Storage::url($filePath);
+        }
+    }
+
     public function createDocument(Request $request){
         $data = $request->input();
+        $bank_statement = $data['bank_statement'];
+        $bank_statement_path = [];
+        foreach($bank_statement as $key => $value){
+            $directory = "upload/files/".$data['email'];
+            array_push($bank_statement_path , $this->downloadAndStoreFile($value, $directory));
+        }
         $document = new Document();
 
-        if ($request->hasFile('bank_statement')) {
-            $file = $request->file('bank_statement');
-            $store_path = "upload/files/".$data['email'];
-            $name = md5(uniqid(rand(), true)) . '-' . str_replace(' ', '-', $file->getClientOriginalName());
-            $file->move(public_path('/' . $store_path), $name);
-            $file_path = $store_path . '/' . $name;
-            $data['bank_statement'] = $file_path;
-        }
-
+        // if ($request->hasFile('bank_statement')) {
+        //     $file = $request->file('bank_statement');
+        //     $store_path = "upload/files/".$data['email'];
+        //     $name = md5(uniqid(rand(), true)) . '-' . str_replace(' ', '-', $file->getClientOriginalName());
+        //     $file->move(public_path('/' . $store_path), $name);
+        //     $file_path = $store_path . '/' . $name;
+        //     $data['bank_statement'] = $file_path;
+        // }
+        $data['bank_statement_path'] = json_encode($bank_statement_path);
         $document->document = json_encode($data);
         $document->status = 1;
         $document->save();
