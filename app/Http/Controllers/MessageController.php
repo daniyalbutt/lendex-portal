@@ -42,12 +42,12 @@ class MessageController extends Controller
     {
         $user_name = Auth::user()->name;
         $sender_id = Auth::user()->id;
+        $user_id = 0;
         if(Auth::user()->hasRole('User')){
-            $user_id = 0;
-            $user_email = Auth::user()->email;
-        }else{
-            $user_name = 'Agent';
+            $user_name = Auth::user()->name;
             $user_email = env('APP_ADMIN_EMAIL');
+        }else{
+            $user_email = Auth::user()->email;
         }
         $data = new Message();
         $data->sender_id = $sender_id;

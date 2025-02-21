@@ -299,9 +299,9 @@
                                 <tr class="text-center">
                                     <th colspan="2">BANK STATEMENT</th>
                                 </tr>
-                                <tr>
-                                    <td class="text-start"><strong>File:</strong> <a href="{{ asset($data->application->find_key('bank_statement')) }}" download>Download File</a></td>
-                                </tr>
+                                @foreach(json_decode($data->application->find_key('bank_statement_path')) as $key => $value)
+                                <td class="text-start"><strong>File:</strong> <a href="{{ asset($value) }}" download>Download File</a></td>
+                                @endforeach
                             </table>
                             <table class="table table-striped table-bordered">
                                 <tr>
@@ -364,7 +364,41 @@
             </div>
         </div>
         @endcan
-        <div class="tab-pane fade" id="message" role="tabpanel" aria-labelledby="message-tab">...</div>
+        <div class="tab-pane fade" id="message" role="tabpanel" aria-labelledby="message-tab">
+            <div class="card">
+                <div class="card-body">
+                @foreach($messages as $key => $message)
+                    @if($message->sender_id != Auth::user()->id)
+                    <div class="media my-4 mb-4 justify-content-end align-items-end">
+                        <div class="message-sent">
+                            <p class="mb-1">
+                                {{ $message->messages }}
+                            </p>
+                            <span class="fs-12">{{ date('h:i a - d M, Y', strtotime($message->created_at)) }}</span>
+                        </div>
+                        <div class="image-box ms-sm-3 ms-2 mb-4">
+                            <img src="{{ asset('images/user.jpg') }}" alt="" class=" img-1">
+                            <span class="active"></span>
+                        </div>
+                    </div>
+                    @else
+                    <div class="media my-4 justify-content-start align-items-start">
+                        <div class="image-box me-sm-3 me-2">
+                            <img src="{{ asset('images/dummy-user.png') }}" alt="" class="img-1">
+                            <span class="active1"></span>
+                        </div>
+                        <div class="message-received">
+                            <p class="mb-1">
+                                {{ $message->messages }}
+                            </p>
+                            <span class="fs-12">{{ date('h:i a - d M, Y', strtotime($message->created_at)) }}</span>
+                        </div>
+                    </div>
+                    @endif
+                @endforeach
+                </div>
+            </div>
+        </div>
     </div>
     </div>
     <div class="col-xl-4 col-xxl-4 col-lg-4">

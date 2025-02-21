@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Message;
 use Spatie\Permission\Models\Role;
 use Hash;
 use Illuminate\Support\Arr;
@@ -48,7 +49,11 @@ class UserController extends Controller
 
     public function show($id){
         $data = User::find($id);
-        return view('users.show',compact('data'));
+        $messages = Message::where(['sender_id' => $id, 'user_id' => 0])
+                    ->orWhere(['sender_id' => 0, 'user_id' => $id])
+                    ->orderBy('id', 'desc')
+                    ->get();
+        return view('users.show',compact('data', 'messages'));
     }
 
     public function edit($id){

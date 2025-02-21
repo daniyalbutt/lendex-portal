@@ -248,7 +248,10 @@
                                         <option value="2" {{ $data->status == 2 ? 'selected' : '' }}>Approved</option>
                                         <option value="3" {{ $data->status == 3 ? 'selected' : '' }}>Rejected</option>
                                     </select>
-                                    <button class="btn btn-primary" type="submit" id="button-addon2">Update Status</button>
+                                    <button class="btn btn-primary btn-loader" type="submit" id="button-addon2">
+                                        <img src="{{ asset('images/loader.gif') }}" alt="">
+                                        Update Status
+                                    </button>
                                 </div>
                             </form>
                         </td>
@@ -259,3 +262,14 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    $(document).ready(function(){
+        $('form').on('submit', function(){
+            $(this).find('.btn-loader').prop('disabled', true);
+            $(this).find('img').show();
+        })
+    });
+</script>
+@endpush

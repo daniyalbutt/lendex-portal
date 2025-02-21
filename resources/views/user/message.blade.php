@@ -102,7 +102,7 @@
                     $('#chartBox').append(result.html);
                     $(status_form).find('img').hide();
                     $(status_form).find('.btn-loader').prop('disabled', false);
-                    $(".upload-file-form")[0].reset();
+                    $(".message-form")[0].reset();
                 }
             },
             error: function(data){

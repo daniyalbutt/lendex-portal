@@ -120,13 +120,14 @@ class DocumentController extends Controller
             $data->user_id = $user->id;
             $role = Role::where('name', 'User')->first();
             $user->assignRole([$role->id]);
-
-            $user_doc = new UserDocs();
-            $user_doc->name = 'Bank Statement';
-            $user_doc->file_path = $data->find_key('bank_statement');
-            $user_doc->status = 2;
-            $user_doc->user_id = $user->id;
-            $user_doc->save();
+            foreach(json_decode($data->find_key('bank_statement_path')) as $key => $value){
+                $user_doc = new UserDocs();
+                $user_doc->name = 'Bank Statement';
+                $user_doc->file_path = $value;
+                $user_doc->status = 2;
+                $user_doc->user_id = $user->id;
+                $user_doc->save();
+            }
         }
 
         if($user_id == 0){
