@@ -58,4 +58,15 @@ class User extends Authenticatable
     public function time_lines(){
         return $this->hasMany(TimeLine::class);
     }
+
+    public function initials() {
+        $name  = strtoupper($this->name); 
+        $remove = ['.', 'MRS', 'MISS', 'MS', 'MASTER', 'DR', 'MR'];
+        $nameWithoutPrefix=str_replace($remove," ",$name);
+        $words = explode(" ", $nameWithoutPrefix);
+        $firtsName = reset($words); 
+        $lastName  = end($words);
+        echo substr($firtsName,0,1); // this will echo the first letter of your first name
+        echo substr($lastName ,0,1); // this will echo the first letter of your last name
+    }  
 }

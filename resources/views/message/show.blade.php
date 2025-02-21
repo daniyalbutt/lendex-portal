@@ -13,15 +13,15 @@
                                     <img src="{{ asset('images/dummy-user.png') }}" alt="" class=" img-1">
                                 </div>
                                 <div class="ms-3">
-                                    <h4 class="fs-20 mb-1 font-w700"><a href="javascript:;" class="text-dark">Agent</a></h4>
-                                    <span>Last message at 04:45 AM</span>
+                                    <h4 class="fs-20 mb-1 font-w700"><a href="javascript:;" class="text-dark">{{ $user->name }}</a></h4>
+                                    <span>{{ $user->email }}</span>
                                 </div>
                             </div>
                         </div>
                         <div class="chat-box-area ic-scroll chat-box-area" id="chatArea">
                             <div class="chat-box-area dz-scroll" id="chartBox">
                                 @foreach($data as $key => $value)
-                                @if($value->sender_id == Auth::user()->id)
+                                @if($value->sender_id != Auth::user()->id)
                                 <div class="media my-4 mb-4 justify-content-end align-items-end">
                                     <div class="message-sent">
                                         <p class="mb-1">
@@ -55,6 +55,7 @@
                         <div class="card-footer border-0 type-massage">
                             <form action="{{ route('messages.store') }}" method="post" class="message-form">
                                 @csrf
+                                <input type="hidden" name="user_id" value="{{ $user->id }}">
                                 <div class="input-group">
                                     <textarea class="form-control" name="message" rows="3" placeholder="Message here.." required></textarea>
                                 </div>

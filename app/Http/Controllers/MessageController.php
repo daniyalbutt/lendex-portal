@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Message;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Auth;
 use Mail;
 use App\Mail\DocumentAdded;
+use DB;
 
 class MessageController extends Controller
 {
@@ -24,7 +26,8 @@ class MessageController extends Controller
      */
     public function index()
     {
-        //
+        $data = Message::select('sender_id')->where('user_id', 0)->groupBy('sender_id')->orderBy('updated_at', 'desc')->get();
+        return view('message.index', compact('data'));
     }
 
     /**
@@ -48,6 +51,7 @@ class MessageController extends Controller
             $user_email = env('APP_ADMIN_EMAIL');
         }else{
             $user_email = Auth::user()->email;
+            $user_id = $request->user_id;
         }
         $data = new Message();
         $data->sender_id = $sender_id;
@@ -68,7 +72,8 @@ class MessageController extends Controller
 
         }
 
-        $html = '<div class="media my-4 mb-4 justify-content-end align-items-end">
+        if($user_id == 0){
+            $html = '<div class="media my-4 mb-4 justify-content-end align-items-end">
                                     <div class="message-sent">
                                         <p class="mb-1">
                                             '.$data->messages.'
@@ -80,6 +85,20 @@ class MessageController extends Controller
                                         <span class="active"></span>
                                     </div>
                                 </div>';
+        }else{
+            $html = '<div class="media my-4 justify-content-start align-items-start">
+                                    <div class="image-box me-sm-3 me-2">
+                                        <img src="'.asset('images/dummy-user.png').'" alt="" class="img-1">
+                                        <span class="active1"></span>
+                                    </div>
+                                    <div class="message-received">
+                                        <p class="mb-1">
+                                            '.$data->messages.'
+                                        </p>
+                                        <span class="fs-12">'.date('h:i a - d M, Y', strtotime($data->created_at)).'</span>
+                                    </div>
+                                </div>';
+        }
 
         return response()->json(['status' => true, 'data' => $data, 'html' => $html]);
 
@@ -88,9 +107,14 @@ class MessageController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Message $message)
+    public function show($id)
     {
-        //
+        $user = User::find($id);
+        $data = Message::where(['sender_id' => $id, 'user_id' => 0])
+            ->orWhere(['sender_id' => 0, 'user_id' => $id])
+            ->orderBy('id', 'asc')
+            ->get();
+        return view('message.show', compact('data', 'user'));
     }
 
     /**
@@ -120,7 +144,7 @@ class MessageController extends Controller
     public function userMessage(){
         $data = Message::where(['sender_id' => Auth::user()->id, 'user_id' => 0])
             ->orWhere(['sender_id' => 0, 'user_id' => Auth::user()->id])
-            ->orderBy('id', 'desc')
+            ->orderBy('id', 'asc')
             ->get();
         return view('user.message', compact('data'));
     }

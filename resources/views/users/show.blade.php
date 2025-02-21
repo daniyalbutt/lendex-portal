@@ -336,37 +336,51 @@
         @endcan
         @can('user-doc-list')
         <div class="tab-pane fade" id="documents" role="tabpanel" aria-labelledby="documents-tab">
-            <div class="row">
-                @foreach($data->user_docs as $key => $value)
-                <div class="col-xxl-4 col-xl-4 col-md-4 col-sm-6">
-                    <div class="card">
-                        <div class="card-body px-4 py-3 d-flex align-items-center gap-3">
-                            <div>
-                                @if($value->status == 1)
-                                <img src="{{ asset('images/files/no-file.png') }}" width="45" alt="">
-                                @else
-                                <img src="{{ asset('images/files') }}/{{ $value->getExtension() }}" width="45" alt="">
-                                @endif
-                            </div>
-                            <div class="clearfix">
-                                <h6 class="mb-0">{{ $value->name }}
-                                    @if($value->file_path != null)
-                                    <a class="text-success" href="{{ asset($value->file_path) }}" download><i class="fa-solid fa-cloud-arrow-down"></i></a>
-                                    @endif
-                                </h6>
-                                <span class="fs-14">{{ $value->updated_at->diffForHumans() }}</span>
-                                <span class="badge {{ $value->find_status_class() }} btn-sm" style="position: absolute;top: 0;right: 0;border-radius: 0;padding: 3px 6px;text-transform: uppercase;font-size: 10px !important;">{{ $value->find_status() }}</span>
+            <div class="card">
+                <div class="card-body">
+                    @can('user-doc-create')
+                    <div class="text-end">
+                        <a class="btn btn-success btn-sm" href="{{ route('documents.create', ['user' => $data->id])}}">Create Document</a>
+                    </div>
+                    @endcan
+                    <div class="row">
+                        @foreach($data->user_docs as $key => $value)
+                        <div class="col-xxl-4 col-xl-4 col-md-4 col-sm-6">
+                            <div class="card">
+                                <div class="card-body px-4 py-3 d-flex align-items-center gap-3">
+                                    <div>
+                                        @if($value->status == 1)
+                                        <img src="{{ asset('images/files/no-file.png') }}" width="45" alt="">
+                                        @else
+                                        <img src="{{ asset('images/files') }}/{{ $value->getExtension() }}" width="45" alt="">
+                                        @endif
+                                    </div>
+                                    <div class="clearfix">
+                                        <h6 class="mb-0">{{ $value->name }}
+                                            @if($value->file_path != null)
+                                            <a class="text-success" href="{{ asset($value->file_path) }}" download><i class="fa-solid fa-cloud-arrow-down"></i></a>
+                                            @endif
+                                        </h6>
+                                        <span class="fs-14">{{ $value->updated_at->diffForHumans() }}</span>
+                                        <span class="badge {{ $value->find_status_class() }} btn-sm" style="position: absolute;top: 0;right: 0;border-radius: 0;padding: 3px 6px;text-transform: uppercase;font-size: 10px !important;">{{ $value->find_status() }}</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        @endforeach
                     </div>
                 </div>
-                @endforeach
             </div>
         </div>
         @endcan
         <div class="tab-pane fade" id="message" role="tabpanel" aria-labelledby="message-tab">
             <div class="card">
                 <div class="card-body">
+                @can('message-create')
+                <div class="text-end">
+                    <a target="_blank" href="{{ route('messages.show', $data->id) }}" class="btn btn-success btn-sm">Reply to this message</a>
+                </div>
+                @endcan
                 @foreach($messages as $key => $message)
                     @if($message->sender_id != Auth::user()->id)
                     <div class="media my-4 mb-4 justify-content-end align-items-end">
