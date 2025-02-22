@@ -90,7 +90,7 @@
             </div>
         </div>
     </div>
-    @elseif(Auth::user()->hasRole('Admin'))
+    @else
     <div class="col-xl-3 col-xxl-3 col-lg-6 col-sm-6">
         <div class="widget-stat card bg-info">
             <div class="card-body p-4">

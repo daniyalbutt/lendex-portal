@@ -343,7 +343,7 @@
                         <a class="btn btn-success btn-sm" href="{{ route('documents.create', ['user' => $data->id])}}">Create Document</a>
                     </div>
                     @endcan
-                    <div class="row">
+                    <div class="row mt-3">
                         @foreach($data->user_docs as $key => $value)
                         <div class="col-xxl-4 col-xl-4 col-md-4 col-sm-6">
                             <div class="card">
