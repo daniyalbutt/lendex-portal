@@ -154,296 +154,42 @@
     <div class="col-xl-12">
         <div class="card">
             <div class="card-header flex-wrap">
-                <h5 class="mb-0">Transaction Details</h5>
-                <div class="d-flex align-items-center justify-content-between transaction flex-wrap">
-                    <div class="input-group search-area style-1">
-                        <span class="input-group-text"><a href="javascript:void(0);" class="m-0"><i
-                                    class="flaticon-search-interface-symbol"></i></a></span>
-                        <input type="text" class="form-control" placeholder="Search">
-                    </div>
-                    <a href="javascript:void(0);" class="btn">
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path d="M2.66699 4.66699H13.3337" stroke="black" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <path d="M2.66699 8L9.33366 8" stroke="black" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                            <path d="M2.66699 11.333H4.00033" stroke="black" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                        </svg>
-                        Sort By
-                    </a>
-                    <a href="javascript:void(0);" class="btn">
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M11.1594 3.33301H4.84121C3.98686 3.33301 3.52595 4.33513 4.08196 4.9838L6.42625 7.71881C6.5816 7.90005 6.66699 8.13089 6.66699 8.3696V11.3816C6.66699 11.7604 6.881 12.1067 7.21978 12.2761L7.88645 12.6094C8.55135 12.9419 9.33366 12.4584 9.33366 11.715V8.3696C9.33366 8.13089 9.41905 7.90005 9.5744 7.71881L11.9187 4.9838C12.4747 4.33513 12.0138 3.33301 11.1594 3.33301Z"
-                                stroke="#1C2430" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                        Filter
-                    </a>
-                </div>
+                <h5 class="mb-0">Application Details</h5>
             </div>
             <div class="card-body pb-2">
                 <div class="table-responsive">
                     <table id="transaction-tbl" class="table transaction-tbl ItemsCheckboxSec">
                         <thead class="border-self">
                             <tr>
-                                <th>
-                                    <div class="form-check custom-checkbox">
-                                        <input type="checkbox" class="form-check-input" id="checkAll">
-                                        <label class="form-check-label" for="checkAll"></label>
-                                    </div>
-                                    <span>ID</span>
-                                </th>
                                 <th>Date</th>
                                 <th>Client</th>
-                                <th>Payment</th>
+                                <th>Email</th>
                                 <th>Status</th>
+                                <th>Last Updates</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach ($data as $key => $value)
                             <tr>
                                 <td>
-                                    <div class="form-check custom-checkbox">
-                                        <input type="checkbox" class="form-check-input"
-                                            id="customCheckBox3" required>
-                                        <label class="form-check-label" for="customCheckBox3"></label>
-                                    </div>
-                                    <span>129361171</span>
+                                    <p class="mb-0 ms-2">{{ date('d M, Y - h:i a', strtotime($value->created_at)) }}</p>
+                                </td>
+                                <td>{{ $value->find_name() }}</td>
+                                <td>{{ $value->find_email() }}</td>
+                                <td>
+                                    <button class="btn {{ $value->find_status_class() }} btn-sm">{{ $value->find_status() }}</button>
                                 </td>
                                 <td>
-                                    <p class="mb-0 ms-2">18 Feb 2024</p>
-                                </td>
-                                <td class>
-                                    <span>Rolex leo</span>
+                                    <p class="mb-0 ms-2">{{ date('d M, Y - h:i a', strtotime($value->updated_at)) }}</p>
                                 </td>
                                 <td>
-                                    <span class="text-success">$376.24</span>
-                                </td>
-                                <td class="pe-0">
-                                    <span class="badge badge-primary light border-0">Completed</span>
-                                </td>
-                                <td>
-                                    <div class="dropdown ms-2">
-                                        <div class="btn-link custome-d" data-bs-toggle="dropdown">
-                                            <svg width="9" height="9" viewBox="0 0 9 9" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <rect y="7" width="2" height="2" fill="black" />
-                                                <rect width="2" height="2" fill="black" />
-                                                <rect x="7" y="7" width="2" height="2" fill="black" />
-                                                <rect x="7" width="2" height="2" fill="black" />
-                                            </svg>
-                                        </div>
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a class="dropdown-item"
-                                                href="javascript:void(0)">Delete</a>
-                                            <a class="dropdown-item" href="javascript:void(0)">Edit</a>
-                                        </div>
+                                    <div class="d-flex gap-1 justify-content-end">
+                                        <a class="btn btn-info btn-sm" href="{{ route('applications.show',$value->id) }}"><i class="fa-solid fa-eye"></i></a>
                                     </div>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>
-                                    <div class="form-check custom-checkbox">
-                                        <input type="checkbox" class="form-check-input"
-                                            id="customCheckBox3" required>
-                                        <label class="form-check-label" for="customCheckBox3"></label>
-                                    </div>
-                                    <span>129361178</span>
-                                </td>
-                                <td>
-                                    <p class="mb-0 ms-2">18 Feb 2024</p>
-                                </td>
-                                <td class>
-                                    <span>Jaction leo</span>
-                                </td>
-                                <td>
-                                    <span class="text-success">$376.24</span>
-                                </td>
-                                <td class="pe-0">
-                                    <span class="badge badge-primary light border-0">Completed</span>
-                                </td>
-                                <td>
-                                    <div class="dropdown ms-2">
-                                        <div class="btn-link custome-d" data-bs-toggle="dropdown">
-                                            <svg width="9" height="9" viewBox="0 0 9 9" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <rect y="7" width="2" height="2" fill="black" />
-                                                <rect width="2" height="2" fill="black" />
-                                                <rect x="7" y="7" width="2" height="2" fill="black" />
-                                                <rect x="7" width="2" height="2" fill="black" />
-                                            </svg>
-                                        </div>
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a class="dropdown-item"
-                                                href="javascript:void(0)">Delete</a>
-                                            <a class="dropdown-item" href="javascript:void(0)">Edit</a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="form-check custom-checkbox">
-                                        <input type="checkbox" class="form-check-input"
-                                            id="customCheckBox3" required>
-                                        <label class="form-check-label" for="customCheckBox3"></label>
-                                    </div>
-                                    <span>129361179</span>
-                                </td>
-                                <td>
-                                    <p class="mb-0 ms-2">18 Feb 2024</p>
-                                </td>
-                                <td class>
-                                    <span>Rolex leo</span>
-                                </td>
-                                <td>
-                                    <span class="text-warning">$254.24</span>
-                                </td>
-                                <td class="pe-0">
-                                    <span class="badge badge-warning light border-0">Inprogress</span>
-                                </td>
-                                <td>
-                                    <div class="dropdown ms-2">
-                                        <div class="btn-link custome-d" data-bs-toggle="dropdown">
-                                            <svg width="9" height="9" viewBox="0 0 9 9" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <rect y="7" width="2" height="2" fill="black" />
-                                                <rect width="2" height="2" fill="black" />
-                                                <rect x="7" y="7" width="2" height="2" fill="black" />
-                                                <rect x="7" width="2" height="2" fill="black" />
-                                            </svg>
-                                        </div>
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a class="dropdown-item"
-                                                href="javascript:void(0)">Delete</a>
-                                            <a class="dropdown-item" href="javascript:void(0)">Edit</a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="form-check custom-checkbox">
-                                        <input type="checkbox" class="form-check-input"
-                                            id="customCheckBox3" required>
-                                        <label class="form-check-label" for="customCheckBox3"></label>
-                                    </div>
-                                    <span>129361179</span>
-                                </td>
-                                <td>
-                                    <p class="mb-0 ms-2">18 Feb 2024</p>
-                                </td>
-                                <td class>
-                                    <span>Meview Otis</span>
-                                </td>
-                                <td>
-                                    <span class="text-danger">$254.24</span>
-                                </td>
-                                <td class="pe-0">
-                                    <span class="badge badge-danger light border-0">Pending</span>
-                                </td>
-                                <td>
-                                    <div class="dropdown ms-2">
-                                        <div class="btn-link custome-d" data-bs-toggle="dropdown">
-                                            <svg width="9" height="9" viewBox="0 0 9 9" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <rect y="7" width="2" height="2" fill="black" />
-                                                <rect width="2" height="2" fill="black" />
-                                                <rect x="7" y="7" width="2" height="2" fill="black" />
-                                                <rect x="7" width="2" height="2" fill="black" />
-                                            </svg>
-                                        </div>
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a class="dropdown-item"
-                                                href="javascript:void(0)">Delete</a>
-                                            <a class="dropdown-item" href="javascript:void(0)">Edit</a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="form-check custom-checkbox">
-                                        <input type="checkbox" class="form-check-input"
-                                            id="customCheckBox3" required>
-                                        <label class="form-check-label" for="customCheckBox3"></label>
-                                    </div>
-                                    <span>129361171</span>
-                                </td>
-                                <td>
-                                    <p class="mb-0 ms-2">18 Feb 2024</p>
-                                </td>
-                                <td class>
-                                    <span>Rolex leo</span>
-                                </td>
-                                <td>
-                                    <span class="text-success">$376.24</span>
-                                </td>
-                                <td class="pe-0">
-                                    <span class="badge badge-primary light border-0">Completed</span>
-                                </td>
-                                <td>
-                                    <div class="dropdown ms-2">
-                                        <div class="btn-link custome-d" data-bs-toggle="dropdown">
-                                            <svg width="9" height="9" viewBox="0 0 9 9" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <rect y="7" width="2" height="2" fill="black" />
-                                                <rect width="2" height="2" fill="black" />
-                                                <rect x="7" y="7" width="2" height="2" fill="black" />
-                                                <rect x="7" width="2" height="2" fill="black" />
-                                            </svg>
-                                        </div>
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a class="dropdown-item"
-                                                href="javascript:void(0)">Delete</a>
-                                            <a class="dropdown-item" href="javascript:void(0)">Edit</a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="form-check custom-checkbox">
-                                        <input type="checkbox" class="form-check-input"
-                                            id="customCheckBox3" required>
-                                        <label class="form-check-label" for="customCheckBox3"></label>
-                                    </div>
-                                    <span>129361178</span>
-                                </td>
-                                <td>
-                                    <p class="mb-0 ms-2">18 Feb 2024</p>
-                                </td>
-                                <td class>
-                                    <span>Jaction leo</span>
-                                </td>
-                                <td>
-                                    <span class="text-success">$376.24</span>
-                                </td>
-                                <td class="pe-0">
-                                    <span class="badge badge-primary light border-0">Completed</span>
-                                </td>
-                                <td>
-                                    <div class="dropdown ms-2">
-                                        <div class="btn-link custome-d" data-bs-toggle="dropdown">
-                                            <svg width="9" height="9" viewBox="0 0 9 9" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <rect y="7" width="2" height="2" fill="black" />
-                                                <rect width="2" height="2" fill="black" />
-                                                <rect x="7" y="7" width="2" height="2" fill="black" />
-                                                <rect x="7" width="2" height="2" fill="black" />
-                                            </svg>
-                                        </div>
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a class="dropdown-item"
-                                                href="javascript:void(0)">Delete</a>
-                                            <a class="dropdown-item" href="javascript:void(0)">Edit</a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

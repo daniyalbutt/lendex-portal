@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Document;
 use Hash;
 use DB;
 use Illuminate\Support\Arr;
@@ -31,7 +32,8 @@ class HomeController extends Controller
         $total_approved = DB::table('documents')->where('status', 1)->count();
         $total_rejected = DB::table('documents')->where('status', 2)->count();
         $total_pending = DB::table('documents')->where('status', 0)->count();
-        return view('home', compact('total_app', 'total_approved', 'total_rejected', 'total_pending'));
+        $data = Document::orderBy('updated_at','DESC')->where('status', '!=', 0)->get();
+        return view('home', compact('total_app', 'total_approved', 'total_rejected', 'total_pending', 'data'));
     }
 
     public function profile(){
