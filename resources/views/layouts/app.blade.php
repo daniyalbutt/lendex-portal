@@ -18,9 +18,8 @@
 					<a href="javascript:;"><img src="{{ asset('images/logo.png') }}" class="light-login" alt=""></a>
 				</div>
 				<h3 class="mb-2">Welcome back!</h3>
-				<p>User Experience & Interface Design <br>Strategy SaaS Solutions</p>
 			</div>
-			<div class="aside-image" style="background-image:url({{ asset('images/pic1.svg') }});"></div>
+			<div class="aside-image" style="background-image:url({{ asset('images/login-bg.jpg') }});"></div>
 		</div>
 		<div class="container flex-row-fluid d-flex flex-column justify-content-center position-relative overflow-hidden p-7 mx-auto">
 			<div class="d-flex justify-content-center h-100 align-items-center">
