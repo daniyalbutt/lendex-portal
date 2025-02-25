@@ -17,6 +17,8 @@ use Hash;
 use Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
+use App\Notifications\ApplicationStatus;
+use Notification;
 
 class DocumentController extends Controller
 {
@@ -149,6 +151,15 @@ class DocumentController extends Controller
 
         }
 
+        $notify_data = [
+            'title' => $data->notification_status(),
+            'data' => $data->id,
+            'image' => $data->image_path(),
+            'status' => $data->find_status_alert_class(),
+        ];
+        $user = User::find($user_id);
+        Notification::send($user, new ApplicationStatus($notify_data));
+
         return redirect()->back()->with('success','Application updated successfully');
     }
 
@@ -174,6 +185,7 @@ class DocumentController extends Controller
     }
 
     public function createDocument(Request $request){
+
         $data = $request->input();
         $bank_statement = $data['bank_statement'];
         $bank_statement_path = [];
@@ -208,6 +220,19 @@ class DocumentController extends Controller
         $data->title = $document->find_name() . ' submitted an Application';
         $data->comments = 'documents-'.$document->id;
         $data->save();
+        
+        $users = User::role(['Admin', 'Super Admin'])->get();
+        
+        $notify_data = [
+            'title' => $document->find_name() . ' submitted an Application',
+            'data' => $document->id,
+            'image' => $document->image_path(),
+            'status' => $document->find_status_alert_class(),
+        ];
+        
+        foreach($users as $key => $user){
+            Notification::send($user, new ApplicationStatus($notify_data));
+        }
 
         return json_encode(['status' => true]);
     }

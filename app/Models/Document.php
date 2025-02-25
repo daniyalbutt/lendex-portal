@@ -92,4 +92,16 @@ class Document extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+    public function image_path(){
+        if($this->status == 1){
+            return 'images/status/application-pending.png';
+        }else if($this->status == 2){
+            return 'images/status/application-aprroved.png';
+        }else if($this->status == 3){
+            return 'images/status/application-rejected.png';
+        }else if($this->status == 4){
+            return 'images/status/application-inprogress.png';
+        }
+    }
 }
