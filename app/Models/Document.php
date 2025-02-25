@@ -43,6 +43,18 @@ class Document extends Model
         }
     }
 
+    public function notification_status(){
+        if($this->status == 1){
+            return 'Your Application is Pending';
+        }else if($this->status == 2){
+            return 'Your Application has Approved';
+        }else if($this->status == 3){
+            return 'Your Application has been Rejected';
+        }else if($this->status == 4){
+            return 'Your Application is now in Process';
+        }
+    }
+
     public function find_status_class(){
         if($this->status == 1){
             return 'btn-primary';

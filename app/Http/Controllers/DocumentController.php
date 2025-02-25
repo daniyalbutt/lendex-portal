@@ -101,13 +101,13 @@ class DocumentController extends Controller
 
         //sending Email
         $mailData = [
-            'status' => 'Your Document Has ' . $data->find_status(),
+            'status' => $data->notification_status(),
             'reason' => $data->comments
         ];
 
         $user_id = $data->user_id;
 
-        if($data->status == 4 ){
+        if($data->status == 4){
             $user = new User();
             $user->name = $data->find_name();
             $user->email = $data->find_email();
