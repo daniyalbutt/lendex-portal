@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Document;
 use Hash;
 use DB;
+use Auth;
 use Illuminate\Support\Arr;
 
 class HomeController extends Controller
@@ -56,5 +57,15 @@ class HomeController extends Controller
         $user = User::find($id);
         $user->update($input);
         return redirect()->back()->with('success', 'Profile Updated Successfully');
+    }
+
+    public function markAsRead(){
+        Auth::user()->unreadNotifications->where('type', 'App\Notifications\MessageStatus')->markAsRead();
+        return redirect()->back();
+    }
+
+    public function markAsReadApplication(){
+        Auth::user()->unreadNotifications->where('type', 'App\Notifications\ApplicationStatus')->markAsRead();
+        return redirect()->back();
     }
 }

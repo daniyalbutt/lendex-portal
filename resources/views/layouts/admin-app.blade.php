@@ -54,6 +54,62 @@
         <!--**********************************
             Header start
         ***********************************-->
+		<div class="chatbox">
+			<div class="chatbox-close"></div>
+			<div class="custom-tab-1">
+				<ul class="nav nav-tabs">
+					<li class="nav-item">
+						<a class="nav-link" data-bs-toggle="tab" href="#alerts">Messages</a>
+					</li>
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane fade show active" id="alerts" role="tabpanel">
+						<div class="card mb-sm-3 mb-md-0 contacts_card" style="border-radius: 0;">
+							<div class="card-body contacts_body p-0 ic-scroll" id="IC_W_Contacts_Body1">
+								<ul class="contacts">
+									@foreach (auth()->user()->unreadNotifications->where('type', 'App\Notifications\MessageStatus') as $notification)
+									<li>
+										<a href="{{ route('messages.index') }}">
+											<div class="d-flex bd-highlight">
+												<div class="img_cont primary">
+													<i class="fa fa-message"></i>
+												</div>
+												<div class="user_info">
+													<span>{{ $notification->data['title'] }}</span>
+													<p>{{ $notification->data['data']['messages'] }}</p>
+												</div>
+											</div>
+										</a>
+									</li>
+									@endforeach
+									@foreach (auth()->user()->readNotifications->where('type', 'App\Notifications\MessageStatus') as $notification)
+									<li>
+										<a href="{{ route('messages.index') }}">
+											<div class="d-flex bd-highlight">
+												<div class="img_cont primary">
+													<i class="fa fa-message"></i>
+												</div>
+												<div class="user_info">
+													<span>{{ $notification->data['title'] }}</span>
+													<p>{{ $notification->data['data']['messages'] }}</p>
+												</div>
+											</div>
+										</a>
+									</li>
+									@endforeach
+								</ul>
+							</div>
+							<div class="card-footer">
+								@if (auth()->user()->unreadNotifications->where('type', 'App\Notifications\MessageStatus'))
+								<a href="{{ route('mark-as-read') }}" class="btn btn-primary btn-sm w-100">Mark All as Read</a>
+								@endif
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<div class="header">
 			<div class="header-content">
 				<nav class="navbar navbar-expand">
@@ -76,14 +132,27 @@
 									<path d="M11.4979 16.5639C11.3593 16.8482 11.1426 17.0871 10.8732 17.2529C10.6039 17.4186 10.2929 17.5042 9.97665 17.4998C9.66041 17.4954 9.35196 17.4011 9.08731 17.2279C8.82267 17.0548 8.61276 16.8099 8.48211 16.5218" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
 									<path d="M10 2.5V3.33333" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
 									</svg>
-									<span class="badge text-white bg-secondary">27</span>	
+									<span class="badge text-white bg-secondary" style="position: absolute;top: 9px;padding: 0px 3px;font-size: 10px;right: 0;">{{ auth()->user()->unreadNotifications()->where('type', 'App\Notifications\ApplicationStatus')->count() }}</span>	
 									Notification
 								</a>
 								<div class="dropdown-menu dropdown-menu-end">
 									<div id="DZ_W_Notification1" class="widget-media ic-scroll p-3"
 										style="height:380px;">
 										<ul class="timeline">
-											@foreach (auth()->user()->unreadNotifications as $notification)
+											@foreach (auth()->user()->unreadNotifications->where('type', 'App\Notifications\ApplicationStatus') as $notification)
+											<li>
+												<div class="timeline-panel">
+													<div class="media me-2 media-{{ $notification->data['status'] }}">
+														<img src="{{ asset($notification->data['image']) }}" alt="" width="25">
+													</div>
+													<div class="media-body">
+														<h6 class="mb-1">{{ $notification->data['title'] }}</h6>
+														<small class="d-block">{{ date('d M Y - h:i A', strtotime($notification->created_at)) }}</small>
+													</div>
+												</div>
+											</li>
+											@endforeach
+											@foreach (auth()->user()->readNotifications->where('type', 'App\Notifications\ApplicationStatus') as $notification)
 											<li>
 												<div class="timeline-panel">
 													<div class="media me-2 media-{{ $notification->data['status'] }}">
@@ -98,8 +167,11 @@
 											@endforeach
 										</ul>
 									</div>
-									<a class="all-notification" href="javascript:void(0);">See all notifications <i
-											class="ti-arrow-end"></i></a>
+									@if (auth()->user()->unreadNotifications->where('type', 'App\Notifications\ApplicationStatus'))
+									<a class="all-notification" href="{{ route('mark-as-read-apps') }}">Mark All as Read
+										<i class="ti-arrow-end"></i>
+									</a>
+									@endif
 								</div>
 							</li>
 							<li class="nav-item dropdown notification_dropdown">
@@ -125,7 +197,7 @@
 									<path d="M4.66675 8.16665L12.2001 13.8166C13.2667 14.6166 14.7334 14.6166 15.8001 13.8166L23.3334 8.1666" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
 									<rect x="3.5" y="5.83334" width="21" height="16.3333" rx="2" stroke="black" stroke-linecap="round"/>
 									</svg>
-									<span class="badge text-white bg-secondary">27</span>
+									<span class="badge text-white bg-secondary">{{ auth()->user()->unreadNotifications()->where('type', 'App\Notifications\MessageStatus')->count() }}</span>
 								</a>
 							</li>
 							<li class="nav-item dropdown header-profile">

@@ -9,6 +9,8 @@ use Auth;
 use Mail;
 use App\Mail\DocumentAdded;
 use DB;
+use App\Notifications\MessageStatus;
+use Notification;
 
 class MessageController extends Controller
 {
@@ -49,15 +51,29 @@ class MessageController extends Controller
         if(Auth::user()->hasRole('User')){
             $user_name = Auth::user()->name;
             $user_email = env('APP_ADMIN_EMAIL');
+            $get_users = User::role(['Admin', 'Super Admin'])->get();
+            $notify_data = [
+                'title' => 'Message Received From ' . $user_name,
+            ];
         }else{
             $user_email = Auth::user()->email;
             $user_id = $request->user_id;
+            $get_users = User::where('id', $user_id)->get();
+            $notify_data = [
+                'title' => 'Message Received',
+            ];
         }
+
         $data = new Message();
         $data->sender_id = $sender_id;
         $data->user_id = $user_id;
         $data->messages = $request->message;
         $data->save();
+
+        $notify_data['data'] = $data;
+        foreach($get_users as $key => $get_user){
+            Notification::send($get_user, new MessageStatus($notify_data));
+        }
 
         //sending Email
         $mailData = [

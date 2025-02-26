@@ -12857,17 +12857,18 @@ textarea.form-control {
   .chatbox .search {
     height: 2.5rem; }
   .chatbox .user_info span {
-    font-size: 0.9375rem;
+    font-size: 0.9075rem;
     color: #000;
     display: block;
     font-weight: 500;
-    line-height: 1;
+    line-height: 15px;
     margin-bottom: 0.3125rem;
     text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
+    /* white-space: nowrap; */
+    /* overflow: hidden; */
     display: block;
-    max-width: 10.625rem; }
+    /* max-width: 10.625rem; */
+  }
     [data-theme-version="dark"] .chatbox .user_info span {
       color: #fff; }
   .chatbox .user_info p {

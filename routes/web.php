@@ -20,6 +20,8 @@ Route::get('/', function () {
 Auth::routes(['register' => false]);
 
 Route::group(['middleware' => ['auth']], function() {
+    Route::get('/mark-as-read', [HomeController::class,'markAsRead'])->name('mark-as-read');
+    Route::get('/mark-as-read-app', [HomeController::class,'markAsReadApplication'])->name('mark-as-read-apps');
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::get('/profile', [HomeController::class, 'profile'])->name('profile');
     Route::put('/profile/update/{id}', [HomeController::class, 'profileUpdate'])->name('profile.update');
