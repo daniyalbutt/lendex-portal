@@ -163,7 +163,7 @@
                             <table class="table mb-0">
                                 <tr>
                                     <td class="text-start"><strong>Date of Birth:</strong> <u>{{ $data->find_key('date_of_birth') }}</u></td>
-                                    <td class="text-start"><strong>SS#:</strong> <u>{{ $data->find_key('ss#') }}</u></td>
+                                    <td class="text-start"><strong>SS#:</strong> <u>{{ $data->find_key('ss') }}</u></td>
                                 </tr>
                             </table>
                         </td>
