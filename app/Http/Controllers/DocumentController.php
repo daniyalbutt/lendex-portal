@@ -191,8 +191,10 @@ class DocumentController extends Controller
         $data = $request->input();
         $bank_statement = $data['bank_statement'];
         $bank_statement_path = [];
-        $directory = "upload/files/".$data['email'];
-        array_push($bank_statement_path , $this->downloadAndStoreFile($bank_statement, $directory));
+        foreach($bank_statement as $key => $value){
+            $directory = "upload/files/".$data['email'];
+            array_push($bank_statement_path , $this->downloadAndStoreFile($value, $directory));
+        }
         $document = new Document();
         $data['bank_statement_path'] = json_encode($bank_statement_path);
         $document->document = json_encode($data);
