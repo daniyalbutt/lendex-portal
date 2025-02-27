@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use App\Notifications\ApplicationStatus;
 use Notification;
+use Illuminate\Support\Facades\Log;
 
 class DocumentController extends Controller
 {
@@ -186,6 +187,7 @@ class DocumentController extends Controller
 
     public function createDocument(Request $request){
 
+        Log::info($request->input());
         $data = $request->input();
         $bank_statement = $data['bank_statement'];
         $bank_statement_path = [];
@@ -194,15 +196,6 @@ class DocumentController extends Controller
             array_push($bank_statement_path , $this->downloadAndStoreFile($value, $directory));
         }
         $document = new Document();
-
-        // if ($request->hasFile('bank_statement')) {
-        //     $file = $request->file('bank_statement');
-        //     $store_path = "upload/files/".$data['email'];
-        //     $name = md5(uniqid(rand(), true)) . '-' . str_replace(' ', '-', $file->getClientOriginalName());
-        //     $file->move(public_path('/' . $store_path), $name);
-        //     $file_path = $store_path . '/' . $name;
-        //     $data['bank_statement'] = $file_path;
-        // }
         $data['bank_statement_path'] = json_encode($bank_statement_path);
         $document->document = json_encode($data);
         $document->status = 1;
