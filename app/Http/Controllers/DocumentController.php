@@ -186,8 +186,8 @@ class DocumentController extends Controller
     }
 
     public function createDocument(Request $request){
-
-        Log::info($request->input());
+        Log::info('Hitting the function');
+        Log::info(json_encode($request->input()));
         $data = $request->input();
         $bank_statement = $data['bank_statement'];
         $bank_statement_path = [];
