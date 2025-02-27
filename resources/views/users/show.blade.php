@@ -284,11 +284,14 @@
                                 </tr>
                                 <tr>
                                     <td><strong>Owner Signature:</strong> <u>{{ $data->application->find_key('owner_signature') }}</u></td>
-                                    <td class="text-start"><strong>Co-Owner Signature:</strong> <u>{{ $data->application->find_key('co_owner_signature') }}</u></td>
                                 </tr>
                                 <tr>
                                     <td><strong>Printed Name:</strong> <u>{{ $data->application->find_key('owner_printed_name') }}</u></td>
-                                    <td class="text-start"><strong>Printed Name:</strong> <u>{{ $data->application->find_key('co_owner_printed_name') }}</u></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <img src="{{ asset($data->find_key('owner_signature_path')) }}" alt="">
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td><strong>Date:</strong> <u>{{ $data->application->find_key('owner_date') }}</u></td>

@@ -205,8 +205,13 @@
                         <th colspan="2">AUTHORIZATION</th>
                     </tr>
                     <tr>
-                        <td><strong>Owner Signature:</strong> <u>{{ $data->find_key('owner_signature') }}</u></td>
-                        <td class="text-start"><strong>Co-Owner Signature:</strong> <u>{{ $data->find_key('co_owner_signature') }}</u></td>
+                        <td><strong>Owner Signature:</strong></td>
+                        <td class="text-start"><strong>Co-Owner Signature:</strong></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: center;">
+                            <img src="{{ asset($data->find_key('owner_signature_path')) }}" alt="">
+                        </td>
                     </tr>
                     <tr>
                         <td><strong>Printed Name:</strong> <u>{{ $data->find_key('owner_printed_name') }}</u></td>

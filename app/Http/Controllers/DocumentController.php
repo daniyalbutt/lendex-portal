@@ -195,6 +195,9 @@ class DocumentController extends Controller
             $directory = "upload/files/".$data['email'];
             array_push($bank_statement_path , $this->downloadAndStoreFile($value, $directory));
         }
+        $signature_directory = "upload/files/".$data['email'];
+        $data['owner_signature_path'] = $this->downloadAndStoreFile($data['owner_signature'], $signature_directory);
+
         $document = new Document();
         $data['bank_statement_path'] = json_encode($bank_statement_path);
         $document->document = json_encode($data);
