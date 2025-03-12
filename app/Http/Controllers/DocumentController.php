@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Notifications\ApplicationStatus;
 use Notification;
 use Illuminate\Support\Facades\Log;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class DocumentController extends Controller
 {
@@ -246,4 +247,29 @@ class DocumentController extends Controller
             return redirect()->back();
         }
     }
+    
+    public function array_except($array, $keys) {
+        return array_diff_key($array, array_flip((array) $keys));   
+    } 
+    
+    public function download($id) {
+        $document = Document::find($id);
+        $data = json_decode($document->document);
+        $data_array = [];
+        foreach($data as $key => $value){
+            if($key != '__submission'){
+                $data_array[$key] = $value;
+            }
+            if($key == 'bank_statement'){
+                $data_array[$key] = '<a href="'.$value[0].'" target="_blank">File</a>';
+            }
+            if($key == 'owner_signature_path'){
+                $data_array[$key] = '<a href="'.asset($value).'" target="_blank">File</a>';
+            }
+        }
+        $data_array = $this->array_except($data_array, ['_fluentform_3_fluentformnonce', 'owner_signature', 'bank_statement_path']);
+        $pdf = Pdf::loadView('pdf', ['data' => $data_array, 'name' => $document->find_name()]);
+        return $pdf->download($document->find_name(). '.pdf');
+    }
+    
 }

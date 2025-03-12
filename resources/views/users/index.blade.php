@@ -16,6 +16,7 @@
 
 
 
+
 <!-- row -->
 <div class="row">
     <div class="col-12">
@@ -37,6 +38,7 @@
                         </thead>
                         <tbody>
                             @foreach ($data as $key => $user)
+                            @if(!$user->hasRole('Admin'))
                             <tr>
                                 <td>{{ ++$key }}</td>
                                 <td>{{ $user->name }}</td>
@@ -67,6 +69,7 @@
                                     </div>
                                 </td>
                             </tr>
+                            @endif
                             @endforeach
                         </tbody>
                         <tfoot>

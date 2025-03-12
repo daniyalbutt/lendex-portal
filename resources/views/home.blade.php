@@ -185,6 +185,7 @@
                                 </td>
                                 <td>
                                     <div class="d-flex gap-1 justify-content-end">
+                                        <a class="btn btn-primary btn-sm" href="{{ route('application.download',$value->id) }}"><i class="fa-solid fa-download"></i></a>
                                         <a class="btn btn-info btn-sm" href="{{ route('applications.show',$value->id) }}"><i class="fa-solid fa-eye"></i></a>
                                     </div>
                                 </td>

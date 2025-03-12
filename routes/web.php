@@ -32,6 +32,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('pages', PageController::class);
     Route::resource('sections', SectionController::class);
     Route::resource('applications', DocumentController::class);
+    Route::get('download/application/{id}', [DocumentController::class, 'download'])->name('application.download');
     Route::get('application/{id}', [DocumentController::class, 'applicationView'])->name('application.view');
     Route::resource('documents', UserDocController::class);
     Route::post('upload-file', [UserDocController::class, 'uploadFile'])->name('documents.upload-file');

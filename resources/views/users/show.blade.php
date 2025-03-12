@@ -283,19 +283,21 @@
                                     <th colspan="2">AUTHORIZATION</th>
                                 </tr>
                                 <tr>
-                                    <td><strong>Owner Signature:</strong> <u>{{ $data->application->find_key('owner_signature') }}</u></td>
+                                    <td><strong>Owner Signature</strong></td>
+                                    <td><strong>Co Owner Signature</strong></td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Printed Name:</strong> <u>{{ $data->application->find_key('owner_printed_name') }}</u></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <img src="{{ asset($data->find_key('owner_signature_path')) }}" alt="">
+                                    <td colspan="2">
+                                        <img src="{{ asset($data->application->find_key('owner_signature_path')) }}" alt="" style="width: 100%;">
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td><strong>Printed Name:</strong> <u>{{ $data->application->find_key('owner_printed_name') }}</u></td>
+                                    <td><strong>Printed Name:</strong> <u>{{ $data->application->find_key('co_owner_printed_name') }}</u></td>
+                                </tr>
+                                <tr>
                                     <td><strong>Date:</strong> <u>{{ $data->application->find_key('owner_date') }}</u></td>
-                                    <td class="text-start"><strong>Date:</strong> <u>{{ $data->application->find_key('co_owner_date') }}</u></td>
+                                    <td><strong>Date:</strong> <u>{{ $data->application->find_key('co_owner_date') }}</u></td>
                                 </tr>
                             </table>
                             <table class="table table-striped table-bordered">

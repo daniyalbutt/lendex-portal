@@ -45,7 +45,7 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                        
+                            <a href="{{ route('password.request') }}">Reset Password</a>
                         </div>
                     </div>
                     <div class="text-center">
